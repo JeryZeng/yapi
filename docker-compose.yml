@@ -1,0 +1,15 @@
+version: "3"
+services:
+  mongodb:
+    image: 'bitnami/mongodb:latest'
+    ports:
+      - "27017:27017"
+    volumes:
+      - /Users/zengjie/mongodb:/bitnami
+  yapi:
+    build: .
+    ports:
+      - "3000:3000"
+    command: ["bash","-c","/yapi/vendors//wait-for-it.sh mongodb:27017 -- node /yapi/vendors/server/app.js"]
+    depends_on:
+        - mongodb

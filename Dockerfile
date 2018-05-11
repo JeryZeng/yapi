@@ -1,12 +1,11 @@
- FROM readytalk/nodejs
+FROM node:10.1.0
 
-WORKDIR /app
-ADD package.json /app/
+RUN mkdir -p /yapi/vendors
+WORKDIR /yapi/vendors
+ADD . /yapi/vendors/
 RUN npm install --production --registry https://registry.npm.taobao.org
-ADD . /app
+RUN cp /yapi/vendors/config.json /yapi/
 
-RUN npm run install-server &  ykit pack -m
+EXPOSE 3000
 
-CMD []
-
-ENTRYPOINT ["/nodejs/bin/node", "server/app.js"]
+CMD ["node", "/yapi/vendors/server/app.js"]
